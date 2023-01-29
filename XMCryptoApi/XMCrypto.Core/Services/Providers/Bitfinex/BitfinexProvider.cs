@@ -7,7 +7,7 @@ namespace XMCrypto.Core.Services.Providers.Bitfinex
     public class BitfinexProvider : BaseProvider<TickerResponseDto>, IBTCProviderService
     {
         public const string CLIENT_API_NAME = "BitfinexApi";
-        public const string PATH = "v1/pubticker/BTCUSD";
+        private const string PATH = "v1/pubticker/BTCUSD";
         public string Name => "Bitfinex";
         public BitfinexProvider(IHttpClientFactory httpCF): base(httpCF)
         {
