@@ -1,4 +1,5 @@
-﻿using XMCrypto.Core.Services.Providers.Abstractions;
+﻿using Microsoft.Extensions.Logging;
+using XMCrypto.Core.Services.Providers.Abstractions;
 using XMCrypto.Core.Services.Providers.Bitfinex.Dto;
 using XMCrypto.Domain.Interfaces.Services.Providers;
 
@@ -10,7 +11,7 @@ namespace XMCrypto.Core.Services.Providers.Bitfinex
         private const string PATH = "v1/pubticker/BTCUSD";
         private const string NAME = "Bitfinex";
         
-        public BitfinexProvider(IHttpClientFactory httpCF): base(httpCF)
+        public BitfinexProvider(IHttpClientFactory httpCF, ILogger<BitfinexProvider> log): base(httpCF, log)
         {
             ClientApiName = CLIENT_API_NAME;
             Path = PATH;

@@ -1,4 +1,5 @@
-﻿using XMCrypto.Core.Services.Providers.Abstractions;
+﻿using Microsoft.Extensions.Logging;
+using XMCrypto.Core.Services.Providers.Abstractions;
 using XMCrypto.Core.Services.Providers.Bitstamp.Dto;
 using XMCrypto.Domain.Interfaces.Services.Providers;
 
@@ -10,7 +11,7 @@ namespace XMCrypto.Core.Services.Providers.Bitstamp
         private const string PATH = "api/v2/ticker/btcusd/";
         private const string NAME = "Bitstamp";
 
-        public BitstampProvider(IHttpClientFactory httpCF) : base(httpCF)
+        public BitstampProvider(IHttpClientFactory httpCF, ILogger<BitstampProvider> log) : base(httpCF, log)
         {
             ClientApiName = CLIENT_API_NAME;
             Path = PATH;

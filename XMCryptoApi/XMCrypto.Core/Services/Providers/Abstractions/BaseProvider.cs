@@ -1,4 +1,5 @@
 ﻿
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using XMCrypto.Domain.Enums;
 using XMCrypto.Domain.Exceptions;
@@ -10,20 +11,21 @@ namespace XMCrypto.Core.Services.Providers.Abstractions
         where TDto: class, IBTCTickerDto
     {
         protected readonly IHttpClientFactory httpClientFactory;
-
+        protected readonly ILogger<BaseProvider<TDto>> logger;
         public string UrlProvider { get; private set; }
 
         public string Path { get; set; }
         public string Name { get; set; }
         protected string ClientApiName { get; init; }
 
-        public BaseProvider(IHttpClientFactory httpCF)
+        public BaseProvider(IHttpClientFactory httpCF, ILogger<BaseProvider<TDto>> log)
         {
             httpClientFactory = httpCF;
             ClientApiName = string.Empty;
             UrlProvider = string.Empty;
             Path = string.Empty;
             Name = string.Empty;
+            logger = log;
         }
 
         /// <summary>
@@ -37,6 +39,7 @@ namespace XMCrypto.Core.Services.Providers.Abstractions
 
             if (client == null)
             {
+                logger.LogDebug($"There is not configuration for the client: {ClientApiName}");
                 throw new BTCProviderException($"There is not configuration for the client: {ClientApiName}", BTCProviderException.CLIENT_API_NOT_CONFIGURED_CODE);
             }
 
@@ -53,8 +56,9 @@ namespace XMCrypto.Core.Services.Providers.Abstractions
                         return ExternalServiceStatus.NotAvailable;
                 }
             }
-            catch
+            catch(Exception ex)
             {
+                logger.LogDebug($"There was an error cheking the availability of service. Provider: {ClientApiName}. Error: {ex}");
                 return ExternalServiceStatus.NotAvailable;
             }
         }
@@ -70,36 +74,35 @@ namespace XMCrypto.Core.Services.Providers.Abstractions
 
             if (serviceStatus != ExternalServiceStatus.Available)
             {
+                logger.LogDebug($"The service {Name} is not available at this moment");
                 throw new BTCProviderException($"The service {Name} is not available at this moment", BTCProviderException.API_SERVICE_NOT_AVAILABLE);
             }
-
-            var client = httpClientFactory.CreateClient(ClientApiName);
-            var request = new HttpRequestMessage
+            try
             {
-                Method = HttpMethod.Get,
-                RequestUri = new Uri(client.BaseAddress + Path),
-                Headers =  {
+                var client = httpClientFactory.CreateClient(ClientApiName);
+                var request = new HttpRequestMessage
+                {
+                    Method = HttpMethod.Get,
+                    RequestUri = new Uri(client.BaseAddress + Path),
+                    Headers =  {
                                 { "accept", "application/json" },
                             },
-            };
+                };
 
-            using (var response = await client.SendAsync(request))
-            {
-                response.EnsureSuccessStatusCode();
-                var responseBody = await response.Content.ReadAsStringAsync();
-                var result = JsonConvert.DeserializeObject<TDto>(responseBody);
-                return result!;
+                using (var response = await client.SendAsync(request))
+                {
+                    response.EnsureSuccessStatusCode();
+                    var responseBody = await response.Content.ReadAsStringAsync();
+                    var result = JsonConvert.DeserializeObject<TDto>(responseBody);
+                    logger.LogInformation($"Api: {ClientApiName}. Response {responseBody}");
+                    return result!;
+                }
             }
-        }
-
-        /// <summary>
-        /// Return the last price of BTC returned by the Service
-        /// </summary>
-        /// <returns>decimal</returns>
-        public virtual async Task<decimal> GetPriceAsync()
-        {
-            var response = await GetCommonTickerAsync();
-            return response.LastPrice;
-        }
+            catch (Exception ex) 
+            {
+                logger.LogDebug($"There was an error executing the request. Provider: {ClientApiName}. Error: {ex}");
+                throw new BTCProviderException($"There was an error  {Name} is not available at this moment", BTCProviderException.API_SERVICE_NOT_AVAILABLE);
+            }
+        }        
     }
 }

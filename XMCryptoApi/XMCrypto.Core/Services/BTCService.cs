@@ -1,4 +1,6 @@
-﻿using XMCrypto.Domain.Abstractions;
+﻿using Microsoft.Extensions.Logging;
+using System.Text.RegularExpressions;
+using XMCrypto.Domain.Abstractions;
 using XMCrypto.Domain.Entities;
 using XMCrypto.Domain.Exceptions;
 using XMCrypto.Domain.Interfaces.Repository;
@@ -12,12 +14,13 @@ namespace XMCrypto.Core.Services
         private readonly IEnumerable<IBTCProviderService> btcProvider;
         private readonly IBTCRepository btcRepository;
         private readonly IUnitOfWork unitOfWork;
-
-        public BTCService(IEnumerable<IBTCProviderService> btcProv, IBTCRepository btcRepo, IUnitOfWork unitOfW)
+        private readonly ILogger<BTCService> logger;
+        public BTCService(IEnumerable<IBTCProviderService> btcProv, IBTCRepository btcRepo, IUnitOfWork unitOfW, ILogger<BTCService> log)
         {
             btcProvider = btcProv;
             btcRepository = btcRepo;
             unitOfWork = unitOfW;
+            logger = log;
         }
 
         /// <summary>
@@ -47,11 +50,13 @@ namespace XMCrypto.Core.Services
             }
             catch (BTCProviderException btcEx)
             {
+                logger.LogDebug(btcEx.ToString());
                 throw new BTCServiceException(btcEx.Message, btcEx.ExceptionCode);
 
             }
             catch (PersistanceException perEx) 
             {
+                logger.LogDebug(perEx.ToString());
                 if (perEx.ExceptionCode != PersistanceException.COMMIT_ERROR)
                 {
                     throw new BTCServiceException(perEx.Message, perEx.ExceptionCode);
@@ -60,8 +65,9 @@ namespace XMCrypto.Core.Services
                     throw new BTCServiceException("There was an error saving the information in the store.", BTCServiceException.PROVIDER_NOT_FOUND);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.LogDebug(ex.ToString());
                 throw new BTCServiceException("Internal Error", BTCServiceException.INTERNAL_ERROR);
             }
         }
@@ -105,8 +111,8 @@ namespace XMCrypto.Core.Services
                     }
                 }
                 catch 
-                { 
-                    // For Now we dont throw any exception
+                {
+                    logger.LogInformation($"Provider {provider.Name}, the service is not available");
                 }
             }
             return await Task.FromResult(result);

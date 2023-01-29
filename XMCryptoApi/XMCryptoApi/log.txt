@@ -1,0 +1,33 @@
+2023-01-29T21:49:22.2211729+01:00 [1] INF  TravelAgencyBackend - startup-Configure
+2023-01-29T21:49:53.4706748+01:00 [7] INF  TravelAgencyBackend - Api: BitstampApi. Response {"timestamp": "1675025391", "open": "23031", "high": "23954", "low": "22956", "last": "23731", "volume": "1560.58014335", "vwap": "23419", "bid": "23731", "ask": "23732", "open_24": "23003", "percent_change_24": "3.16"}
+2023-01-29T21:50:20.1062178+01:00 [25] DBG  TravelAgencyBackend - There was an error cheking the availability of service. Provider: BitstampApi. Error: System.Net.Http.HttpRequestException: No such host is known. (www.bitstamp.net:443)
+ ---> System.Net.Sockets.SocketException (11001): No such host is known.
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.ThrowException(SocketError error, CancellationToken cancellationToken)
+   at System.Net.Sockets.Socket.AwaitableSocketAsyncEventArgs.System.Threading.Tasks.Sources.IValueTaskSource.GetResult(Int16 token)
+   at System.Net.Sockets.Socket.<ConnectAsync>g__WaitForConnectWithCancellation|277_0(AwaitableSocketAsyncEventArgs saea, ValueTask connectTask, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   --- End of inner exception stack trace ---
+   at System.Net.Http.HttpConnectionPool.ConnectToTcpHostAsync(String host, Int32 port, HttpRequestMessage initialRequest, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.ConnectAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.CreateHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.AddHttp11ConnectionAsync(HttpRequestMessage request)
+   at System.Threading.Tasks.TaskCompletionSourceWithCancellation`1.WaitWithCancellationAsync(CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.GetHttp11ConnectionAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.HttpConnectionPool.SendWithVersionDetectionAndRetryAsync(HttpRequestMessage request, Boolean async, Boolean doRequestAuth, CancellationToken cancellationToken)
+   at System.Net.Http.DiagnosticsHandler.SendAsyncCore(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at System.Net.Http.RedirectHandler.SendAsync(HttpRequestMessage request, Boolean async, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingHttpMessageHandler.<SendAsync>g__Core|5_0(HttpRequestMessage request, CancellationToken cancellationToken)
+   at Microsoft.Extensions.Http.Logging.LoggingScopeHttpMessageHandler.<SendAsync>g__Core|5_0(HttpRequestMessage request, CancellationToken cancellationToken)
+   at System.Net.Http.HttpClient.<SendAsync>g__Core|83_0(HttpRequestMessage request, HttpCompletionOption completionOption, CancellationTokenSource cts, Boolean disposeCts, CancellationTokenSource pendingRequestsCts, CancellationToken originalCancellationToken)
+   at XMCrypto.Core.Services.Providers.Abstractions.BaseProvider`1.GetStatusOfServiceAsync() in E:\Development\GitHub\xm-test\XMCryptoApi\XMCrypto.Core\Services\Providers\Abstractions\BaseProvider.cs:line 48
+2023-01-29T21:50:20.1107588+01:00 [25] DBG  TravelAgencyBackend - The service Bitstamp is not available at this moment
+2023-01-29T21:50:20.3636870+01:00 [25] DBG  TravelAgencyBackend - XMCrypto.Domain.Exceptions.BTCProviderException: The service Bitstamp is not available at this moment
+   at XMCrypto.Core.Services.Providers.Abstractions.BaseProvider`1.GetCommonTickerAsync() in E:\Development\GitHub\xm-test\XMCryptoApi\XMCrypto.Core\Services\Providers\Abstractions\BaseProvider.cs:line 78
+   at XMCrypto.Core.Services.Providers.Bitstamp.BitstampProvider.GetTickerAsync() in E:\Development\GitHub\xm-test\XMCryptoApi\XMCrypto.Core\Services\Providers\Bitstamp\BitstampProvider.cs:line 23
+   at XMCrypto.Core.Services.BTCService.FetchPriceAsync(String source) in E:\Development\GitHub\xm-test\XMCryptoApi\XMCrypto.Core\Services\BTCService.cs:line 38
+2023-01-29T21:52:03.7027648+01:00 [7] INF  TravelAgencyBackend - Api: BitstampApi. Response {"timestamp": "1675025520", "open": "23031", "high": "23954", "low": "22956", "last": "23733", "volume": "1580.78631767", "vwap": "23424", "bid": "23737", "ask": "23739", "open_24": "22999", "percent_change_24": "3.19"}
+2023-01-29T21:53:35.3146627+01:00 [1] INF  TravelAgencyBackend - startup-Configure
+2023-01-29T21:53:58.7439242+01:00 [6] INF  TravelAgencyBackend - Api: BitstampApi. Response {"timestamp": "1675025638", "open": "23031", "high": "23954", "low": "22956", "last": "23738", "volume": "1577.37876357", "vwap": "23425", "bid": "23726", "ask": "23727", "open_24": "22994", "percent_change_24": "3.24"}
+2023-01-29T21:54:02.8080102+01:00 [13] INF  TravelAgencyBackend - Api: BitstampApi. Response {"timestamp": "1675025640", "open": "23031", "high": "23954", "low": "22956", "last": "23738", "volume": "1577.37236357", "vwap": "23425", "bid": "23722", "ask": "23724", "open_24": "22993", "percent_change_24": "3.24"}
+2023-01-29T21:54:15.4508523+01:00 [6] INF  TravelAgencyBackend - Api: BitfinexApi. Response {"mid":"23703.5","bid":"23699.0","ask":"23708.0","last_price":"23700.0","low":"22949.0","high":"23962.0","volume":"4425.24597677","timestamp":"1675025653.0688128"}
+2023-01-29T21:54:18.8027209+01:00 [6] INF  TravelAgencyBackend - Api: BitfinexApi. Response {"mid":"23703.5","bid":"23699.0","ask":"23708.0","last_price":"23700.0","low":"22949.0","high":"23962.0","volume":"4425.24597677","timestamp":"1675025653.0688128"}

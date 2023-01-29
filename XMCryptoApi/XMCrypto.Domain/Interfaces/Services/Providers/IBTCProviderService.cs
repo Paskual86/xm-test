@@ -8,7 +8,6 @@ namespace XMCrypto.Domain.Interfaces.Services.Providers
         string Name { get; }
         string Path { get; }
         string UrlProvider { get; }
-        Task<decimal> GetPriceAsync();
         /// <summary>
         /// Checkout if the service is available
         /// </summary>
@@ -16,6 +15,10 @@ namespace XMCrypto.Domain.Interfaces.Services.Providers
         /// <exception cref="BTCServiceException"></exception>
         /// <exception cref="Exception"></exception>
         Task<ExternalServiceStatus> GetStatusOfServiceAsync();
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         Task<IBTCTickerDto> GetTickerAsync();
     }
 }

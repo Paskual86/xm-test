@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.OpenApi.Models;
+using Serilog;
 using XMCrypto.Core.IoC;
 using XMCrypto.EntityMapper.Profiles;
 using XMCrypto.Persistance.IoC;
@@ -14,7 +15,7 @@ namespace XMCryptoApi
             Configuration = configuration;
         }
 
-        public void ConfigureServices(IServiceCollection services) 
+        public void ConfigureServices(IServiceCollection services)
         {
             services.AddHttpClient();
             services.AddControllers();
@@ -26,10 +27,17 @@ namespace XMCryptoApi
             services.ConfigurationDatabase();
             services.ConfigureCore(Configuration);
             services.AddAutoMapper(typeof(MappingDtoProfiles));
+            Log.Logger = new LoggerConfiguration()
+                            .WriteTo.Console()
+                            .CreateLogger();
         }
+        
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env) 
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger) 
         {
+            logger.LogInformation("startup-Configure");
+
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
