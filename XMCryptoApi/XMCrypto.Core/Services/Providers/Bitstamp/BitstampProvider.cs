@@ -9,7 +9,7 @@ namespace XMCrypto.Core.Services.Providers.Bitstamp
         public const string CLIENT_API_NAME = "BitstampApi";
         public string Name => "Bitstamp";
 
-        public BitstampProvider(IHttpClientFactory httpCF) : base(httpCF, "v2/ticker/btcusd/")
+        public BitstampProvider(IHttpClientFactory httpCF) : base(httpCF, "/ticker/btcusd/")
         {
             ClientApiName = CLIENT_API_NAME;
         }

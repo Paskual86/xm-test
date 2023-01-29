@@ -12,15 +12,14 @@ namespace XMCrypto.Core.IoC
     {
         public static void ConfigureCore(this IServiceCollection services, IConfiguration configuration) 
         {
-
             services.AddHttpClient(BitfinexProvider.CLIENT_API_NAME, httpClient =>
             {
-                httpClient.BaseAddress = new Uri(configuration.GetSection("BTCProviders").GetValue<string>(BitfinexProvider.CLIENT_API_NAME+"Url") + "/");
+                httpClient.BaseAddress = new Uri(configuration.GetSection("BTCProviders").GetValue<string>(BitfinexProvider.CLIENT_API_NAME)!);
             });
 
             services.AddHttpClient(BitstampProvider.CLIENT_API_NAME, httpClient =>
             {
-                httpClient.BaseAddress = new Uri(configuration.GetSection("BTCProviders").GetValue<string>(BitfinexProvider.CLIENT_API_NAME + "Url") + "/");
+                httpClient.BaseAddress = new Uri(configuration.GetSection("BTCProviders").GetValue<string>(BitstampProvider.CLIENT_API_NAME)!);
             });
 
             services.ConfigureProviders();

@@ -13,6 +13,7 @@ namespace XMCryptoApi
 
         public void ConfigureServices(IServiceCollection services) 
         {
+            services.AddHttpClient();
             services.AddControllers();
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen(c =>

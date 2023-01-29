@@ -36,10 +36,8 @@ namespace XMCrypto.Core.Services.Providers.Abstractions
                 // TODO: This should be replace by Internal Exception
                 throw new Exception($"The Client {ClientApiName} is not configured");
             }
-
-            string url = client.BaseAddress!.AbsolutePath;
-
-            var pingResponse = NetworkUtils.PingService(url);
+            
+            var pingResponse = NetworkUtils.PingService(client.BaseAddress!.Host);
 
             using (var response = await client.GetAsync(""))
             {
