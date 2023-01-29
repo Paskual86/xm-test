@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using XMCrypto.Core.Services.Exceptions;
 using XMCrypto.Domain.Interfaces.Services;
 using XMCrypto.Dtos;
 
@@ -28,8 +29,19 @@ namespace XMCryptoApi.Controllers
         [HttpPost("fetch")]
         public async Task<IActionResult> FetchBitCoinPrice(string source)
         {
-            var response = mapper.Map<BitCoinPriceDto>(await bTCService.FetchPriceAsync(source));
-            return Ok(response);
+            try
+            {
+                var response = mapper.Map<BitCoinPriceDto>(await bTCService.FetchPriceAsync(source));
+                return Ok(response);
+            }
+            catch (BTCServiceException btcEx)
+            {
+                return BadRequest(btcEx.Message);
+            }
+            catch (Exception ex) 
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
 

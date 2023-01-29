@@ -1,4 +1,5 @@
-﻿using XMCrypto.Domain.Abstractions;
+﻿using XMCrypto.Core.Services.Exceptions;
+using XMCrypto.Domain.Abstractions;
 using XMCrypto.Domain.Entities;
 using XMCrypto.Domain.Interfaces.Repository;
 using XMCrypto.Domain.Interfaces.Services;
@@ -27,9 +28,9 @@ namespace XMCrypto.Core.Services
         public async Task<BitCoinPrice> FetchPriceAsync(string source)
         {
             var providerExecutable = btcProvider.FirstOrDefault(fo => fo.Name.ToLower() == source.ToLower());
-            if (providerExecutable == null) return null;
+            if (providerExecutable == null) throw new BTCServiceException($"The Source {source} not found", BTCServiceException.PROVIDER_NOT_FOUND);
+            
             var price = await providerExecutable!.GetPriceAsync();
-
             var result = new BitCoinPrice()
             {
                 Price = price,
