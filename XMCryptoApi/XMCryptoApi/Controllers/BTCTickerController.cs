@@ -28,8 +28,8 @@ namespace XMCryptoApi.Controllers
         [HttpPost]
         public async Task<IActionResult> FetchBitCoinPrice(string source)
         {
-            // await bTCService.FetchPriceAsync(source)
-            return Ok();
+            var response = mapper.Map<BitCoinPriceDto>(await bTCService.FetchPriceAsync(source));
+            return Ok(response);
         }
 
 

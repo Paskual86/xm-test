@@ -1,4 +1,4 @@
-﻿using System.Text.Json.Serialization;
+﻿using Newtonsoft.Json;
 using XMCrypto.Domain.Interfaces.Services.Providers;
 
 namespace XMCrypto.Core.Services.Providers.Bitstamp.Dto
@@ -8,44 +8,44 @@ namespace XMCrypto.Core.Services.Providers.Bitstamp.Dto
         /// <summary>
         /// First Price of the Day
         /// </summary>
-        [JsonPropertyName("open")]
+        [JsonProperty("open")]
         public decimal OpenPrice { get; set; }
         /// <summary>
         /// Last price in counter currency.
         /// </summary>
-        [JsonPropertyName("last")]
+        [JsonProperty("last")]
         public decimal LastPrice { get; set; }
         /// <summary>
         /// Last 24 hours price high.
         /// </summary>
-        [JsonPropertyName("High")]
+        [JsonProperty("High")]
         public decimal HighPrice {get; set; }
         /// <summary>
         /// Last 24 hours price low.
         /// </summary>
-        [JsonPropertyName("low")]
+        [JsonProperty("low")]
         public decimal LowPrice {get; set; }
         /// <summary>
         /// Last 24 hours volume.
         /// </summary>
-        [JsonPropertyName("volume")]
+        [JsonProperty("volume")]
         public decimal Volume { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        [JsonPropertyName("vwap")]       
+        [JsonProperty("vwap")]       
         public decimal VolumeWeightedAveragePrice { get; set; }
         /// <summary>
         /// 
         /// </summary>
-        [JsonPropertyName("bid")]
+        [JsonProperty("bid")]
         public decimal HighestBuyOrder { get; set; }
         /// <summary>
         /// Lowest sell order.
         /// </summary>
-        [JsonPropertyName("ask")]
+        [JsonProperty("ask")]
         public decimal LowestSellOrder { get; set; }
-        [JsonPropertyName("timestamp")]
+        [JsonProperty("timestamp")]
         public string? Timestamp { get; set; }
     }
 }

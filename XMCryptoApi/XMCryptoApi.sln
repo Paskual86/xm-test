@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMCryptoApi", "XMCryptoApi\XMCryptoApi.csproj", "{77DFA0C2-1910-4C9B-ACB8-A1037C8CEF61}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XMCryptoApi", "XMCryptoApi\XMCryptoApi.csproj", "{77DFA0C2-1910-4C9B-ACB8-A1037C8CEF61}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{43E500F5-A90F-493A-A563-F97D602FA330}"
 EndProject
@@ -11,17 +11,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentat
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTest", "UnitTest", "{B1CD8232-0A38-48E6-8946-8CF8F4855596}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMCrypto.Core", "XMCrypto.Core\XMCrypto.Core.csproj", "{CBEC1E9F-1C67-4F8D-9791-933884F09C25}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XMCrypto.Core", "XMCrypto.Core\XMCrypto.Core.csproj", "{CBEC1E9F-1C67-4F8D-9791-933884F09C25}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMCrypto.Domain", "XMCrypto.Domain\XMCrypto.Domain.csproj", "{3DA52637-E273-41EE-A0D0-AC7922531410}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XMCrypto.Domain", "XMCrypto.Domain\XMCrypto.Domain.csproj", "{3DA52637-E273-41EE-A0D0-AC7922531410}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMCrypto.Dtos", "XMCrypto.Dtos\XMCrypto.Dtos.csproj", "{778042E6-65D7-4348-8550-3A8B6FE2D110}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XMCrypto.Dtos", "XMCrypto.Dtos\XMCrypto.Dtos.csproj", "{778042E6-65D7-4348-8550-3A8B6FE2D110}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMCrypto.EntityMapper", "XMCrypto.EntityMapper\XMCrypto.EntityMapper.csproj", "{E493DCC7-9027-4DB1-A14C-E211DA0C2B22}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XMCrypto.EntityMapper", "XMCrypto.EntityMapper\XMCrypto.EntityMapper.csproj", "{E493DCC7-9027-4DB1-A14C-E211DA0C2B22}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMCrypto.Persistance", "XMCrypto.Persistance\XMCrypto.Persistance.csproj", "{3F208003-EB66-452D-AC30-4A8324664B51}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XMCrypto.Persistance", "XMCrypto.Persistance\XMCrypto.Persistance.csproj", "{3F208003-EB66-452D-AC30-4A8324664B51}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XM.UnitTest", "XM.UnitTest\XM.UnitTest.csproj", "{AD561B90-D121-45A8-9979-94BF6229B7C1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XM.UnitTest", "XM.UnitTest\XM.UnitTest.csproj", "{AD561B90-D121-45A8-9979-94BF6229B7C1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMCrypto.Utils", "XMCrypto.Utils\XMCrypto.Utils.csproj", "{3DDFC10D-78EF-41C3-BB6F-6E0D85FD8F2E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +59,10 @@ Global
 		{AD561B90-D121-45A8-9979-94BF6229B7C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AD561B90-D121-45A8-9979-94BF6229B7C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AD561B90-D121-45A8-9979-94BF6229B7C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3DDFC10D-78EF-41C3-BB6F-6E0D85FD8F2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3DDFC10D-78EF-41C3-BB6F-6E0D85FD8F2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3DDFC10D-78EF-41C3-BB6F-6E0D85FD8F2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3DDFC10D-78EF-41C3-BB6F-6E0D85FD8F2E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -68,6 +74,7 @@ Global
 		{E493DCC7-9027-4DB1-A14C-E211DA0C2B22} = {43E500F5-A90F-493A-A563-F97D602FA330}
 		{3F208003-EB66-452D-AC30-4A8324664B51} = {43E500F5-A90F-493A-A563-F97D602FA330}
 		{AD561B90-D121-45A8-9979-94BF6229B7C1} = {B1CD8232-0A38-48E6-8946-8CF8F4855596}
+		{3DDFC10D-78EF-41C3-BB6F-6E0D85FD8F2E} = {43E500F5-A90F-493A-A563-F97D602FA330}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {22E8D475-BC11-464F-AD10-DB9CBB66E5F9}

@@ -1,8 +1,8 @@
 ﻿
 using Newtonsoft.Json;
-using XMCrypto.Core.Utils;
 using XMCrypto.Domain.Enums;
 using XMCrypto.Domain.Interfaces.Services.Providers;
+using XMCrypto.Utils;
 
 namespace XMCrypto.Core.Services.Providers.Abstractions
 {
@@ -43,7 +43,7 @@ namespace XMCrypto.Core.Services.Providers.Abstractions
 
             using (var response = await client.GetAsync(""))
             {
-                if ((pingResponse == ExternalServiceStatus.Available) && (response.StatusCode == System.Net.HttpStatusCode.OK))
+                if ((pingResponse == System.Net.NetworkInformation.IPStatus.Success) && (response.StatusCode == System.Net.HttpStatusCode.OK))
                 {
                     UrlProvider = client.BaseAddress + Path;
                     return ExternalServiceStatus.Available;
@@ -71,7 +71,7 @@ namespace XMCrypto.Core.Services.Providers.Abstractions
             var request = new HttpRequestMessage
             {
                 Method = HttpMethod.Get,
-                RequestUri = new Uri(Path),
+                RequestUri = new Uri(client.BaseAddress + Path),
                 Headers =  {
                                 { "accept", "application/json" },
                             },

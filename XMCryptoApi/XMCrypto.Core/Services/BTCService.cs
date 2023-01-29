@@ -1,5 +1,4 @@
-﻿using System.Reflection;
-using XMCrypto.Domain.Entities;
+﻿using XMCrypto.Domain.Entities;
 using XMCrypto.Domain.Interfaces.Services;
 using XMCrypto.Domain.Interfaces.Services.Providers;
 
@@ -13,9 +12,23 @@ namespace XMCrypto.Core.Services
         {
             btcProvider = btcProv;
         }
-        public Task FetchPriceAsync(string source)
+
+        /// <summary>
+        /// Fetch and store the price in the local store. 
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        public async Task<BitCoinPrice> FetchPriceAsync(string source)
         {
-            throw new NotImplementedException();
+            var providerExecutable = btcProvider.FirstOrDefault(fo => fo.Name.ToLower() == source.ToLower());
+            if (providerExecutable == null) return null;
+            var price = await providerExecutable!.GetPriceAsync();
+            return new BitCoinPrice()
+            {
+                Price = price,
+                Source = source,
+                StoreDateTime = DateTime.UtcNow
+            };
         }
 
         public Task<IList<BitCoinPrice>> GetAllHistoryPrice()

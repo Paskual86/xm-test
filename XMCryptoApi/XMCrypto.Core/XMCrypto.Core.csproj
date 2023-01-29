@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\XMCrypto.Domain\XMCrypto.Domain.csproj" />
+    <ProjectReference Include="..\XMCrypto.Utils\XMCrypto.Utils.csproj" />
   </ItemGroup>
 
 </Project>
