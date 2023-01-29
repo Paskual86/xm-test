@@ -11,7 +11,8 @@ namespace XMCrypto.EntityMapper.Profiles
         {
             CreateMap<CryptoProvider, CryptoProviderDto>().ReverseMap();
             CreateMap<BitCoinPrice, BitCoinPriceDto>()
-                .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Price.FormatPrice()))
+                .ForMember(dest => dest.SellPrice, opt => opt.MapFrom(src => src.SellPrice.FormatPrice()))
+                .ForMember(dest => dest.BuyPrice, opt => opt.MapFrom(src => src.BuyPrice.FormatPrice()))
                 .ReverseMap();
         }
     }

@@ -2,6 +2,7 @@
 
 namespace XMCrypto.Domain.Exceptions
 {
+
     public class PersistanceException : Exception
     {
         public const int ARGUMENTS_NULL = 201601;

@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using XMCrypto.Core.Services.Exceptions;
+using XMCrypto.Domain.Exceptions;
 using XMCrypto.Domain.Interfaces.Services;
 using XMCrypto.Dtos;
 
@@ -19,6 +19,10 @@ namespace XMCryptoApi.Controllers
             mapper = map;
         }
 
+        /// <summary>
+        /// Returns the source available. In case that the service is not available is remove from the result list.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("sources")]
         public async Task<IActionResult> GetSourceAvailable()
         {
@@ -26,6 +30,11 @@ namespace XMCryptoApi.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Fetch and store the BTC price, according the source.
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
         [HttpPost("fetch")]
         public async Task<IActionResult> FetchBitCoinPrice(string source)
         {
@@ -43,8 +52,10 @@ namespace XMCryptoApi.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
-
+        /// <summary>
+        /// Search all BTC price stored.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("history")]
         public async Task<IActionResult> GetHistory()
         {
@@ -52,6 +63,11 @@ namespace XMCryptoApi.Controllers
             return Ok(response);
         }
 
+        /// <summary>
+        /// Search the BTC price by source.
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
         [HttpGet("history/{source}")]
         public async Task<IActionResult> GetHistoryBySource(string source)
         {

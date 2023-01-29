@@ -38,13 +38,14 @@ namespace XMCrypto.Core.Services.Providers.Bitstamp.Dto
         /// <summary>
         /// 
         /// </summary>
-        [JsonProperty("bid")]
-        public decimal HighestBuyOrder { get; set; }
+        [JsonProperty("ask")]
+        
+        public decimal BuyPrice { get; set; }
         /// <summary>
         /// Lowest sell order.
         /// </summary>
-        [JsonProperty("ask")]
-        public decimal LowestSellOrder { get; set; }
+        [JsonProperty("bid")]
+        public decimal SellPrice { get; set; }
         [JsonProperty("timestamp")]
         public string? Timestamp { get; set; }
     }

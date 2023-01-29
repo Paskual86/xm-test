@@ -1,9 +1,8 @@
 ﻿
 using Newtonsoft.Json;
-using XMCrypto.Core.Services.Providers.Exceptions;
 using XMCrypto.Domain.Enums;
+using XMCrypto.Domain.Exceptions;
 using XMCrypto.Domain.Interfaces.Services.Providers;
-using XMCrypto.Utils;
 
 namespace XMCrypto.Core.Services.Providers.Abstractions
 {
@@ -24,10 +23,11 @@ namespace XMCrypto.Core.Services.Providers.Abstractions
             ClientApiName = string.Empty;
             UrlProvider = string.Empty;
             Path = string.Empty;
+            Name = string.Empty;
         }
 
         /// <summary>
-        /// 
+        /// Checkout if the service is available
         /// </summary>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
@@ -93,9 +93,9 @@ namespace XMCrypto.Core.Services.Providers.Abstractions
         }
 
         /// <summary>
-        /// 
+        /// Return the last price of BTC returned by the Service
         /// </summary>
-        /// <returns></returns>
+        /// <returns>decimal</returns>
         public virtual async Task<decimal> GetPriceAsync()
         {
             var response = await GetCommonTickerAsync();

@@ -9,10 +9,10 @@ namespace XMCrypto.Core.Services.Providers.Bitfinex.Dto
         /// (bid + ask) / 2
         /// </summary>
         public decimal Mid { get;set;}
-        [JsonProperty("bid")]
-        public decimal HighestBuyOrder { get;set; }
         [JsonProperty("ask")]
-        public decimal LowestSellOrder { get;set; }
+        public decimal BuyPrice { get;set; }
+        [JsonProperty("bid")]
+        public decimal SellPrice { get;set; }
         /// <summary>
         /// The price at which the last order executed
         /// </summary>

@@ -1,7 +1,4 @@
-﻿using System.Linq.Expressions;
-using XMCrypto.Core.Services.Exceptions;
-using XMCrypto.Core.Services.Providers.Exceptions;
-using XMCrypto.Domain.Abstractions;
+﻿using XMCrypto.Domain.Abstractions;
 using XMCrypto.Domain.Entities;
 using XMCrypto.Domain.Exceptions;
 using XMCrypto.Domain.Interfaces.Repository;
@@ -35,10 +32,11 @@ namespace XMCrypto.Core.Services
 
             try
             {
-                var price = await providerExecutable!.GetPriceAsync();
+                var price = await providerExecutable!.GetTickerAsync();
                 var result = new BitCoinPrice()
                 {
-                    Price = price,
+                    SellPrice = price.SellPrice,
+                    BuyPrice = price.BuyPrice,
                     Source = providerExecutable.Name,
                     StoreDateTime = DateTime.UtcNow
                 };
@@ -68,6 +66,10 @@ namespace XMCrypto.Core.Services
             }
         }
 
+        /// <summary>
+        /// Get all prices from all souces from the store
+        /// </summary>
+        /// <returns></returns>
         public async Task<IList<BitCoinPrice>> GetAllHistoryPrice()
         {
             return (await btcRepository.GetListAsync()).ToList();
@@ -86,7 +88,7 @@ namespace XMCrypto.Core.Services
             var result = new List<CryptoProvider>();
 
             if (btcProvider == null) {
-                throw new NotImplementedException("No Implementations of Providers");
+                throw new BTCServiceException("There are not a providers implementations", BTCServiceException.NO_PROVIDERS_IMPLEMENTATION);
             }
 
             foreach (var provider in btcProvider) 

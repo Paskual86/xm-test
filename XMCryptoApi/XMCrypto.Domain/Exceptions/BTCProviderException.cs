@@ -1,5 +1,6 @@
 ﻿
-namespace XMCrypto.Core.Services.Providers.Exceptions
+
+namespace XMCrypto.Domain.Exceptions
 {
     public class BTCProviderException : Exception
     {
@@ -7,7 +8,7 @@ namespace XMCrypto.Core.Services.Providers.Exceptions
         public const int API_SERVICE_NOT_AVAILABLE = 201402;
         public int ExceptionCode { get; set; }
 
-        public BTCProviderException():base()
+        public BTCProviderException() : base()
         {
 
         }
