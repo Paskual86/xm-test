@@ -1,69 +1,77 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 using XMCrypto.Domain.Abstractions;
+using XMCrypto.Domain.Exceptions;
 
 namespace XMCrypto.Persistance.Repositories.Abstractions
 {
     public abstract class BaseRepository<T, Tkey> : IRepository<T, Tkey>
         where T : class
     {
-        protected readonly ApplicationDbContext _context;
+        private readonly ApplicationDbContext context;
 
-        public BaseRepository(ApplicationDbContext context)
+        public BaseRepository(ApplicationDbContext ctx)
         {
-            _context = context;
+            context = ctx;
         }
 
         public async Task AddAsync(T entity)
         {
-            await _context.AddAsync(entity);
+            try
+            {
+                await context.AddAsync(entity);
+            }
+            catch(Exception)
+            {
+                throw new PersistanceException("There was an error trying to add a new data", PersistanceException.ADDING_ERROR);
+            }
         }
 
         public async Task<int> CountAsync(Expression<Func<T, bool>>? filter = null)
         {
             if (filter == null)
             {
-                return await _context.Set<T>().CountAsync();
+                return await context.Set<T>().CountAsync();
             }
 
-            return await _context.Set<T>().CountAsync(filter);
+            return await context.Set<T>().CountAsync(filter);
         }
 
         public async Task<bool> ExistAsync(Expression<Func<T, bool>>? filter = null)
         {
             if (filter == null)
             {
-                return await _context.Set<T>().AnyAsync();
+                return await context.Set<T>().AnyAsync();
             }
 
-            return await _context.Set<T>().AnyAsync(filter);
+            return await context.Set<T>().AnyAsync(filter);
         }
 
         public async Task<T> GetAsync(Expression<Func<T, bool>> filter, string[]? includeProperties = null)
         {
             if (filter == null)
             {
-                throw new ArgumentNullException();
+                throw new PersistanceException("Arguments could not be null", PersistanceException.ARGUMENTS_NULL);
             }
 
             if (includeProperties == null)
             {
-                return await _context.Set<T>().FirstOrDefaultAsync(filter);
+                return await context.Set<T>().FirstOrDefaultAsync(filter);
             }
 
-            IQueryable<T> query = _context.Set<T>();
+            IQueryable<T> query = context.Set<T>();
 
             foreach (var includeProperty in includeProperties)
             {
                 query = query.Include(includeProperty);
             }
 
-            return await query!.FirstOrDefaultAsync(filter)!;
+            return await query.FirstOrDefaultAsync(filter);
         }
 
         public async Task<IEnumerable<T>> GetListAsync(Expression<Func<T, bool>>? filter = null, string[]? includeProperties = null)
         {
-            IQueryable<T> query = _context.Set<T>();
+            IQueryable<T> query = context.Set<T>();
 
             if (includeProperties != null)
             {
@@ -81,13 +89,16 @@ namespace XMCrypto.Persistance.Repositories.Abstractions
             return await query.AsNoTracking().Where(filter).ToListAsync();
         }
 
-        public async Task<T> GetByIdAsync(Tkey id) => await _context.Set<T>().FindAsync(id);
+        public async Task<T> GetByIdAsync(Tkey id)
+        {
+            return await context.Set<T>().FindAsync(id);
+        }
 
 #pragma warning disable 1998
         // disable async warning
         public virtual async Task RemoveAsync(T entity)
         {
-            _context.Remove(entity);
+            context.Remove(entity);
         }
 #pragma warning restore 1998
 
@@ -95,7 +106,7 @@ namespace XMCrypto.Persistance.Repositories.Abstractions
         // disable async warning
         public virtual async Task UpdateAsync(T entity)
         {
-            _context.Update(entity);
+            context.Update(entity);
         }
 #pragma warning restore 1998
     }

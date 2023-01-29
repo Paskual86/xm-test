@@ -5,6 +5,7 @@ namespace XMCrypto.Core.Services.Exceptions
     {
         public const int PROVIDER_NOT_FOUND = 198601;
         public const int INTERNAL_ERROR = 198602;
+        public const int ERROR_SAVING_INFO_STORE = 198603;
 
         public int ExceptionCode { get; set; }
         public BTCServiceException():base()

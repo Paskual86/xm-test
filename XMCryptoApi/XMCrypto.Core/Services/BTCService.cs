@@ -3,6 +3,7 @@ using XMCrypto.Core.Services.Exceptions;
 using XMCrypto.Core.Services.Providers.Exceptions;
 using XMCrypto.Domain.Abstractions;
 using XMCrypto.Domain.Entities;
+using XMCrypto.Domain.Exceptions;
 using XMCrypto.Domain.Interfaces.Repository;
 using XMCrypto.Domain.Interfaces.Services;
 using XMCrypto.Domain.Interfaces.Services.Providers;
@@ -38,7 +39,7 @@ namespace XMCrypto.Core.Services
                 var result = new BitCoinPrice()
                 {
                     Price = price,
-                    Source = source,
+                    Source = providerExecutable.Name,
                     StoreDateTime = DateTime.UtcNow
                 };
 
@@ -50,7 +51,18 @@ namespace XMCrypto.Core.Services
             {
                 throw new BTCServiceException(btcEx.Message, btcEx.ExceptionCode);
 
-            }catch (Exception) 
+            }
+            catch (PersistanceException perEx) 
+            {
+                if (perEx.ExceptionCode != PersistanceException.COMMIT_ERROR)
+                {
+                    throw new BTCServiceException(perEx.Message, perEx.ExceptionCode);
+                }
+                else {
+                    throw new BTCServiceException("There was an error saving the information in the store.", BTCServiceException.PROVIDER_NOT_FOUND);
+                }
+            }
+            catch (Exception)
             {
                 throw new BTCServiceException("Internal Error", BTCServiceException.INTERNAL_ERROR);
             }

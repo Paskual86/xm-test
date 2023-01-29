@@ -1,19 +1,29 @@
-﻿using XMCrypto.Domain.Abstractions;
+﻿using Microsoft.EntityFrameworkCore;
+using XMCrypto.Domain.Abstractions;
+using XMCrypto.Domain.Exceptions;
 
 namespace XMCrypto.Persistance.Abstractions
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private ApplicationDbContext _context;
+        private ApplicationDbContext context;
 
-        public UnitOfWork(ApplicationDbContext context)
+        public UnitOfWork(ApplicationDbContext ctx)
         {
-            _context = context;
+            context = ctx;
         }
 
         public async Task<bool> Commit()
         {
-            return (await _context.SaveChangesAsync()) >= 0;
+            try
+            {
+                return (await context.SaveChangesAsync()) >= 0;
+            }
+            catch (Exception ex)
+            {
+                throw new PersistanceException(ex.Message, PersistanceException.COMMIT_ERROR);
+            }
+            
         }
     }
 }
