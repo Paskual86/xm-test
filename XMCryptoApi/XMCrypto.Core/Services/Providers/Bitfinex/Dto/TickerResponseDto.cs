@@ -3,7 +3,7 @@ using XMCrypto.Domain.Interfaces.Services.Providers;
 
 namespace XMCrypto.Core.Services.Providers.Bitfinex.Dto
 {
-    public class ResponseDto : IBTCTickerDto
+    public class TickerResponseDto : IBTCTickerDto
     {
         /// <summary>
         /// (bid + ask) / 2
