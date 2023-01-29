@@ -1,28 +1,22 @@
-﻿using XMCrypto.Domain.Enums;
+﻿using XMCrypto.Core.Services.Providers.Abstractions;
 using XMCrypto.Domain.Interfaces.Services.Providers;
 
 namespace XMCrypto.Core.Services.Providers.Bitstamp
 {
-    public class BitstampProvider : IBTCProviderService
+    public class BitstampProvider : BaseProvider, IBTCProviderService
     {
         public const string CLIENT_API_NAME = "BitstampApi";
         public string Name => "Bitstamp";
-        public string UrlProvider { get; private set; }
 
-        public BitstampProvider()
+        public BitstampProvider(IHttpClientFactory httpCF) : base(httpCF, "v2/ticker/btcusd/")
         {
-            UrlProvider = "v2/ticker/btcusd/";
+            ClientApiName = CLIENT_API_NAME;
         }
 
         public async Task<decimal> GetPriceAsync()
         {
             var response = await GetTickerAsync();
             return response.LastPrice;
-        }
-
-        public async Task<ExternalServiceStatus> GetStatusOfServiceAsync()
-        {
-            throw new NotImplementedException();
         }
 
         public Task<IBTCTickerDto> GetTickerAsync()

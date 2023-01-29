@@ -1,24 +1,19 @@
 ﻿using Newtonsoft.Json;
-using System.Net.NetworkInformation;
+using XMCrypto.Core.Services.Providers.Abstractions;
 using XMCrypto.Core.Services.Providers.Bitfinex.Dto;
-using XMCrypto.Core.Utils;
 using XMCrypto.Domain.Enums;
 using XMCrypto.Domain.Interfaces.Services.Providers;
 
 namespace XMCrypto.Core.Services.Providers.Bitfinex
 {
-    public class BitfinexProvider : IBTCProviderService
+    public class BitfinexProvider : BaseProvider, IBTCProviderService
     {
         public const string CLIENT_API_NAME = "BitfinexApi";
         public string Name => "Bitfinex";
-        public string UrlProvider { get; private set; }
-
-        private readonly IHttpClientFactory httpClientFactory;
-
-        public BitfinexProvider(IHttpClientFactory httpCF)
+        
+        public BitfinexProvider(IHttpClientFactory httpCF): base(httpCF, "v1/pubticker/BTCUSD")
         {
-            UrlProvider = "v1/pubticker/BTCUSD";
-            httpClientFactory = httpCF;
+            ClientApiName = CLIENT_API_NAME;
         }
 
         /// <summary>
@@ -29,34 +24,6 @@ namespace XMCrypto.Core.Services.Providers.Bitfinex
         {
             var response = await GetTickerAsync();
             return response.LastPrice;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        /// <exception cref="Exception"></exception>
-        public async Task<ExternalServiceStatus> GetStatusOfServiceAsync()
-        {
-            var client = httpClientFactory.CreateClient(CLIENT_API_NAME);
-            
-            if (client == null) 
-            {
-                // TODO: This should be replace by Internal Exception
-                throw new Exception($"The Client {CLIENT_API_NAME} is not configured");
-            }
-
-            string url = client.BaseAddress.AbsolutePath;
-
-            var pingResponse =  NetworkUtils.PingService(url);
-
-            using (var response = await client.GetAsync(""))
-            { 
-                if ((pingResponse == ExternalServiceStatus.Available) && (response.StatusCode == System.Net.HttpStatusCode.OK))
-                    return ExternalServiceStatus.Available;
-                else
-                    return ExternalServiceStatus.NotAvailable;
-            }
         }
 
         /// <summary>
