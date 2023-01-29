@@ -29,9 +29,8 @@ namespace XMCrypto.Core.IoC
 
         public static void ConfigureProviders(this IServiceCollection services) 
         {
-            //services.AddScoped<IBTCProviderService<IBTCTickerDto>, BaseProvider<IBTCTickerDto>>();
-            services.AddScoped<IBTCProviderService<Services.Providers.Bitfinex.Dto.TickerResponseDto>, BitfinexProvider>();
-            services.AddScoped<IBTCProviderService<Services.Providers.Bitstamp.Dto.TickerResponseDto>, BitstampProvider>();
+            services.AddScoped<IBTCProviderService, BitfinexProvider>();
+            services.AddScoped<IBTCProviderService, BitstampProvider>();
         }
     }
 }

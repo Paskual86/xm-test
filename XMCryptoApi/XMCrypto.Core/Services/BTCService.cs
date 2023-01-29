@@ -1,4 +1,5 @@
-﻿using XMCrypto.Domain.Entities;
+﻿using System.Reflection;
+using XMCrypto.Domain.Entities;
 using XMCrypto.Domain.Interfaces.Services;
 using XMCrypto.Domain.Interfaces.Services.Providers;
 
@@ -6,9 +7,9 @@ namespace XMCrypto.Core.Services
 {
     public class BTCService : IBTCService
     {
-        private readonly IEnumerable<IBTCProviderService<IBTCTickerDto>> btcProvider;
+        private readonly IEnumerable<IBTCProviderService> btcProvider;
 
-        public BTCService(IEnumerable<IBTCProviderService<IBTCTickerDto>> btcProv)
+        public BTCService(IEnumerable<IBTCProviderService> btcProv)
         {
             btcProvider = btcProv;
         }
@@ -29,7 +30,6 @@ namespace XMCrypto.Core.Services
 
         public async Task<IList<CryptoProvider>> GetSourceAvailablesAsync()
         {
-
             // First  - Load all implementations of IBTCProviderService
             // Second - Loop the values and check out if the service is available
             // Third  - Add The Valid Url to the result

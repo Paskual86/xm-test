@@ -55,7 +55,7 @@ namespace XMCrypto.Core.Services.Providers.Abstractions
         /// </summary>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public virtual async Task<TDto> GetTickerAsync() 
+        public virtual async Task<TDto> GetCommonTickerAsync() 
         {
             var serviceStatus = await GetStatusOfServiceAsync();
 
@@ -89,7 +89,7 @@ namespace XMCrypto.Core.Services.Providers.Abstractions
         /// <returns></returns>
         public virtual async Task<decimal> GetPriceAsync()
         {
-            var response = await GetTickerAsync();
+            var response = await GetCommonTickerAsync();
             return response.LastPrice;
         }
     }

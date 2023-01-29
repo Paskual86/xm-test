@@ -4,7 +4,7 @@ using XMCrypto.Domain.Interfaces.Services.Providers;
 
 namespace XMCrypto.Core.Services.Providers.Bitfinex
 {
-    public class BitfinexProvider : BaseProvider<TickerResponseDto>, IBTCProviderService<TickerResponseDto>
+    public class BitfinexProvider : BaseProvider<TickerResponseDto>, IBTCProviderService
     {
         public const string CLIENT_API_NAME = "BitfinexApi";
         public string Name => "Bitfinex";
@@ -12,6 +12,11 @@ namespace XMCrypto.Core.Services.Providers.Bitfinex
         public BitfinexProvider(IHttpClientFactory httpCF): base(httpCF, "v1/pubticker/BTCUSD")
         {
             ClientApiName = CLIENT_API_NAME;
+        }
+
+        public async Task<IBTCTickerDto> GetTickerAsync()
+        {
+            return await base.GetCommonTickerAsync();
         }
     }
 }
