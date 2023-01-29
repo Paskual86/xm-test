@@ -8,11 +8,13 @@ namespace XMCrypto.Core.Services.Providers.Bitfinex
     {
         public const string CLIENT_API_NAME = "BitfinexApi";
         private const string PATH = "v1/pubticker/BTCUSD";
-        public string Name => "Bitfinex";
+        private const string NAME = "Bitfinex";
+        
         public BitfinexProvider(IHttpClientFactory httpCF): base(httpCF)
         {
             ClientApiName = CLIENT_API_NAME;
             Path = PATH;
+            Name = NAME;
         }
 
         public async Task<IBTCTickerDto> GetTickerAsync()

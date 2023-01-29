@@ -8,12 +8,13 @@ namespace XMCrypto.Core.Services.Providers.Bitstamp
     {
         public const string CLIENT_API_NAME = "BitstampApi";
         private const string PATH = "api/v2/ticker/btcusd/";
-        public string Name => "Bitstamp";
+        private const string NAME = "Bitstamp";
 
         public BitstampProvider(IHttpClientFactory httpCF) : base(httpCF)
         {
             ClientApiName = CLIENT_API_NAME;
             Path = PATH;
+            Name = NAME;
         }
 
         public async Task<IBTCTickerDto> GetTickerAsync()

@@ -1,4 +1,6 @@
-﻿using XMCrypto.Core.Services.Exceptions;
+﻿using System.Linq.Expressions;
+using XMCrypto.Core.Services.Exceptions;
+using XMCrypto.Core.Services.Providers.Exceptions;
 using XMCrypto.Domain.Abstractions;
 using XMCrypto.Domain.Entities;
 using XMCrypto.Domain.Interfaces.Repository;
@@ -28,19 +30,30 @@ namespace XMCrypto.Core.Services
         public async Task<BitCoinPrice> FetchPriceAsync(string source)
         {
             var providerExecutable = btcProvider.FirstOrDefault(fo => fo.Name.ToLower() == source.ToLower());
-            if (providerExecutable == null) throw new BTCServiceException($"The Source {source} not found", BTCServiceException.PROVIDER_NOT_FOUND);
-            
-            var price = await providerExecutable!.GetPriceAsync();
-            var result = new BitCoinPrice()
-            {
-                Price = price,
-                Source = source,
-                StoreDateTime = DateTime.UtcNow
-            };
+            if (providerExecutable == null) throw new BTCServiceException($"There is not configuration for the client: {source}", BTCServiceException.PROVIDER_NOT_FOUND);
 
-            await btcRepository.AddAsync(result);
-            await unitOfWork.Commit();
-            return result;
+            try
+            {
+                var price = await providerExecutable!.GetPriceAsync();
+                var result = new BitCoinPrice()
+                {
+                    Price = price,
+                    Source = source,
+                    StoreDateTime = DateTime.UtcNow
+                };
+
+                await btcRepository.AddAsync(result);
+                await unitOfWork.Commit();
+                return result;
+            }
+            catch (BTCProviderException btcEx)
+            {
+                throw new BTCServiceException(btcEx.Message, btcEx.ExceptionCode);
+
+            }catch (Exception) 
+            {
+                throw new BTCServiceException("Internal Error", BTCServiceException.INTERNAL_ERROR);
+            }
         }
 
         public async Task<IList<BitCoinPrice>> GetAllHistoryPrice()

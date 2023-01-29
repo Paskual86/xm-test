@@ -1,5 +1,6 @@
 ﻿
 using Newtonsoft.Json;
+using XMCrypto.Core.Services.Providers.Exceptions;
 using XMCrypto.Domain.Enums;
 using XMCrypto.Domain.Interfaces.Services.Providers;
 using XMCrypto.Utils;
@@ -14,6 +15,7 @@ namespace XMCrypto.Core.Services.Providers.Abstractions
         public string UrlProvider { get; private set; }
 
         public string Path { get; set; }
+        public string Name { get; set; }
         protected string ClientApiName { get; init; }
 
         public BaseProvider(IHttpClientFactory httpCF)
@@ -35,21 +37,25 @@ namespace XMCrypto.Core.Services.Providers.Abstractions
 
             if (client == null)
             {
-                // TODO: This should be replace by Internal Exception
-                throw new Exception($"The Client {ClientApiName} is not configured");
+                throw new BTCProviderException($"There is not configuration for the client: {ClientApiName}", BTCProviderException.CLIENT_API_NOT_CONFIGURED_CODE);
             }
-            
-            var pingResponse = NetworkUtils.PingService(client.BaseAddress!.Host);
 
-            using (var response = await client.GetAsync(""))
+            try
             {
-                if ((pingResponse == System.Net.NetworkInformation.IPStatus.Success) && (response.StatusCode == System.Net.HttpStatusCode.OK))
+                using (var response = await client.GetAsync(""))
                 {
-                    UrlProvider = client.BaseAddress + Path;
-                    return ExternalServiceStatus.Available;
+                    if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                    {
+                        UrlProvider = client.BaseAddress + Path;
+                        return ExternalServiceStatus.Available;
+                    }
+                    else
+                        return ExternalServiceStatus.NotAvailable;
                 }
-                else
-                    return ExternalServiceStatus.NotAvailable;
+            }
+            catch
+            {
+                return ExternalServiceStatus.NotAvailable;
             }
         }
 
@@ -64,7 +70,7 @@ namespace XMCrypto.Core.Services.Providers.Abstractions
 
             if (serviceStatus != ExternalServiceStatus.Available)
             {
-                throw new Exception("Service not available");
+                throw new BTCProviderException($"The service {Name} is not available at this moment", BTCProviderException.API_SERVICE_NOT_AVAILABLE);
             }
 
             var client = httpClientFactory.CreateClient(ClientApiName);

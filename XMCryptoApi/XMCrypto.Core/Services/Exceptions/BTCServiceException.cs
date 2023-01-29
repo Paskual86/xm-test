@@ -4,6 +4,7 @@ namespace XMCrypto.Core.Services.Exceptions
     public class BTCServiceException : Exception
     {
         public const int PROVIDER_NOT_FOUND = 198601;
+        public const int INTERNAL_ERROR = 198602;
 
         public int ExceptionCode { get; set; }
         public BTCServiceException():base()
