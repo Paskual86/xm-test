@@ -2,12 +2,13 @@
 
 namespace XMCrypto.Domain.Interfaces.Services.Providers
 {
-    public interface IBTCProviderService
+    public interface IBTCProviderService<TDto>
+        where TDto : class, IBTCTickerDto
     {
         string Name { get; }
         string UrlProvider { get; }
         Task<decimal> GetPriceAsync();
         Task<ExternalServiceStatus> GetStatusOfServiceAsync();
-        Task<IBTCTickerDto> GetTickerAsync();
+        Task<TDto> GetTickerAsync();
     }
 }
