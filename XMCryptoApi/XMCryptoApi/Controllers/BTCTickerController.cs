@@ -4,22 +4,16 @@ using XMCrypto.Domain.Interfaces.Services;
 namespace XMCryptoApi.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
-    public class BTCTickerController : Controller
+    [Route("api/btc/v1")]
+    public class BTCTickerController : ControllerBase
     {
         private readonly IBTCService bTCService;
+        
         public BTCTickerController(IBTCService btcSrv)
         {
             bTCService = btcSrv;
         }
 
-
-        public IActionResult Index()
-        {
-            return View();
-        }
-        
-        
         [HttpGet("sources")]
         public async Task<IActionResult> GetSourceAvailable()
         {

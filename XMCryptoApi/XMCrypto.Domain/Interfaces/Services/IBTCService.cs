@@ -1,10 +1,12 @@
-﻿namespace XMCrypto.Domain.Interfaces.Services
+﻿using XMCrypto.Domain.Entities;
+
+namespace XMCrypto.Domain.Interfaces.Services
 {
     public interface IBTCService
     {
-        Task GetSourceAvailablesAsync();
+        Task<IList<CryptoProvider>> GetSourceAvailablesAsync();
         Task FetchPriceAsync(string source);
-        Task GetAllHistoryPrice();
-        Task GetHistoryPrice(string source);
+        Task<IList<BitCoinPrice>> GetAllHistoryPrice();
+        Task<IList<BitCoinPrice>> GetHistoryPrice(string source);
     }
 }
