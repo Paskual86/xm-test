@@ -1,4 +1,6 @@
-﻿using XMCrypto.Domain.Entities;
+﻿using XMCrypto.Domain.Abstractions;
+using XMCrypto.Domain.Entities;
+using XMCrypto.Domain.Interfaces.Repository;
 using XMCrypto.Domain.Interfaces.Services;
 using XMCrypto.Domain.Interfaces.Services.Providers;
 
@@ -7,10 +9,14 @@ namespace XMCrypto.Core.Services
     public class BTCService : IBTCService
     {
         private readonly IEnumerable<IBTCProviderService> btcProvider;
+        private readonly IBTCRepository btcRepository;
+        private readonly IUnitOfWork unitOfWork;
 
-        public BTCService(IEnumerable<IBTCProviderService> btcProv)
+        public BTCService(IEnumerable<IBTCProviderService> btcProv, IBTCRepository btcRepo, IUnitOfWork unitOfW)
         {
             btcProvider = btcProv;
+            btcRepository = btcRepo;
+            unitOfWork = unitOfW;
         }
 
         /// <summary>
@@ -23,22 +29,27 @@ namespace XMCrypto.Core.Services
             var providerExecutable = btcProvider.FirstOrDefault(fo => fo.Name.ToLower() == source.ToLower());
             if (providerExecutable == null) return null;
             var price = await providerExecutable!.GetPriceAsync();
-            return new BitCoinPrice()
+
+            var result = new BitCoinPrice()
             {
                 Price = price,
                 Source = source,
                 StoreDateTime = DateTime.UtcNow
             };
+
+            await btcRepository.AddAsync(result);
+            await unitOfWork.Commit();
+            return result;
         }
 
-        public Task<IList<BitCoinPrice>> GetAllHistoryPrice()
+        public async Task<IList<BitCoinPrice>> GetAllHistoryPrice()
         {
-            throw new NotImplementedException();
+            return (await btcRepository.GetListAsync()).ToList();
         }
 
-        public Task<IList<BitCoinPrice>> GetHistoryPrice(string source)
-        {
-            throw new NotImplementedException();
+        public async Task<IList<BitCoinPrice>> GetHistoryPrice(string source)
+        { 
+            return (await btcRepository.GetListAsync(wh => wh.Source == source)).ToList();
         }
 
         public async Task<IList<CryptoProvider>> GetSourceAvailablesAsync()

@@ -16,6 +16,7 @@
     <ProjectReference Include="..\XMCrypto.Core\XMCrypto.Core.csproj" />
     <ProjectReference Include="..\XMCrypto.Domain\XMCrypto.Domain.csproj" />
     <ProjectReference Include="..\XMCrypto.EntityMapper\XMCrypto.EntityMapper.csproj" />
+    <ProjectReference Include="..\XMCrypto.Persistance\XMCrypto.Persistance.csproj" />
   </ItemGroup>
 
 </Project>

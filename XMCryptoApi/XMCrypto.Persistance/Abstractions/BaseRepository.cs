@@ -58,7 +58,7 @@ namespace XMCrypto.Persistance.Repositories.Abstractions
                 query = query.Include(includeProperty);
             }
 
-            return await query.FirstOrDefaultAsync(filter);
+            return await query!.FirstOrDefaultAsync(filter)!;
         }
 
         public async Task<IEnumerable<T>> GetListAsync(Expression<Func<T, bool>>? filter = null, string[]? includeProperties = null)

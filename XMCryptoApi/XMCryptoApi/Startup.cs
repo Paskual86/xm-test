@@ -2,6 +2,7 @@
 using Microsoft.OpenApi.Models;
 using XMCrypto.Core.IoC;
 using XMCrypto.EntityMapper.Profiles;
+using XMCrypto.Persistance.IoC;
 
 namespace XMCryptoApi
 {
@@ -22,6 +23,7 @@ namespace XMCryptoApi
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "MX Crypto", Version = "v1" });
             });
+            services.ConfigurationDatabase();
             services.ConfigureCore(Configuration);
             services.AddAutoMapper(typeof(MappingDtoProfiles));
         }

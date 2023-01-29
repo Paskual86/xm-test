@@ -25,7 +25,7 @@ namespace XMCryptoApi.Controllers
             return Ok(response);
         }
 
-        [HttpPost]
+        [HttpPost("fetch")]
         public async Task<IActionResult> FetchBitCoinPrice(string source)
         {
             var response = mapper.Map<BitCoinPriceDto>(await bTCService.FetchPriceAsync(source));
@@ -36,15 +36,15 @@ namespace XMCryptoApi.Controllers
         [HttpGet("history")]
         public async Task<IActionResult> GetHistory()
         {
-            await bTCService.GetAllHistoryPrice();
-            return Ok();
+            var response = mapper.Map<List<BitCoinPriceDto>>(await bTCService.GetAllHistoryPrice()).OrderBy(ob => ob.StoreDateTime).ToList();
+            return Ok(response);
         }
 
         [HttpGet("history/{source}")]
         public async Task<IActionResult> GetHistoryBySource(string source)
         {
-            await bTCService.GetHistoryPrice(source);
-            return Ok();
+            var response = mapper.Map<List<BitCoinPriceDto>>(await bTCService.GetHistoryPrice(source)).OrderBy(ob => ob.StoreDateTime).ToList();
+            return Ok(response);
         }
     }
 }
