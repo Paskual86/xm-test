@@ -69,9 +69,9 @@ namespace XMCryptoApi.Controllers
         /// <param name="source"></param>
         /// <returns></returns>
         [HttpGet("history/{source}")]
-        public async Task<IActionResult> GetHistoryBySource(string source)
+        public async Task<IActionResult> GetHistoryBySource(string source, [FromQuery] DateTime? dateFrom, [FromQuery] DateTime? dateTo, [FromQuery] int? recordCount)
         {
-            var response = mapper.Map<List<BitCoinPriceDto>>(await bTCService.GetHistoryPrice(source)).OrderBy(ob => ob.StoreDateTime).ToList();
+            var response = mapper.Map<List<BitCoinPriceDto>>(await bTCService.GetHistoryPrice(source, dateFrom, dateTo, recordCount)).OrderBy(ob => ob.StoreDateTime).ToList();
             return Ok(response);
         }
     }

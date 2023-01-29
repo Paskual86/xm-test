@@ -86,6 +86,13 @@ namespace XMCrypto.Core.Services
             return (await btcRepository.GetListAsync(wh => wh.Source == source)).ToList();
         }
 
+        public async Task<IList<BitCoinPrice>> GetHistoryPrice(string source, DateTime? dateFrom, DateTime? dateTo, int? maxRecords)
+        {
+            var dtFrom = dateFrom ?? DateTime.UtcNow.AddDays(-5);
+            var dtTo = dateTo ?? DateTime.UtcNow.AddDays(5);
+            return (await btcRepository.GetListAsync(wh => wh.Source == source && wh.StoreDateTime>= dtFrom && wh.StoreDateTime<= dtTo, null, maxRecords)).ToList();
+        }
+
         public async Task<IList<CryptoProvider>> GetSourceAvailablesAsync()
         {
             // First  - Load all implementations of IBTCProviderService

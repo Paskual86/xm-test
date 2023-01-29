@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Linq.Expressions;
 using XMCrypto.Domain.Abstractions;
 using XMCrypto.Domain.Exceptions;
@@ -69,7 +70,7 @@ namespace XMCrypto.Persistance.Repositories.Abstractions
             return await query.FirstOrDefaultAsync(filter);
         }
 
-        public async Task<IEnumerable<T>> GetListAsync(Expression<Func<T, bool>>? filter = null, string[]? includeProperties = null)
+        public async Task<IEnumerable<T>> GetListAsync(Expression<Func<T, bool>>? filter = null, string[]? includeProperties = null, int? take = null)
         {
             IQueryable<T> query = context.Set<T>();
 
@@ -86,9 +87,8 @@ namespace XMCrypto.Persistance.Repositories.Abstractions
                 return await query.AsNoTracking().ToListAsync();
             }
 
-            return await query.AsNoTracking().Where(filter).ToListAsync();
+            return await query.AsNoTracking().Where(filter).Take(take ?? 10).ToListAsync();
         }
-
         public async Task<T> GetByIdAsync(Tkey id)
         {
             return await context.Set<T>().FindAsync(id);

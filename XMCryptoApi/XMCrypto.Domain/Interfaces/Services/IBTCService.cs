@@ -8,5 +8,6 @@ namespace XMCrypto.Domain.Interfaces.Services
         Task<BitCoinPrice> FetchPriceAsync(string source);
         Task<IList<BitCoinPrice>> GetAllHistoryPrice();
         Task<IList<BitCoinPrice>> GetHistoryPrice(string source);
+        Task<IList<BitCoinPrice>> GetHistoryPrice(string source, DateTime? dateFrom, DateTime? dateTo, int? maxRecords);
     }
 }
