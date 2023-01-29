@@ -6,4 +6,13 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="9.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\XMCrypto.Domain\XMCrypto.Domain.csproj" />
+    <ProjectReference Include="..\XMCrypto.Dtos\XMCrypto.Dtos.csproj" />
+  </ItemGroup>
+
 </Project>

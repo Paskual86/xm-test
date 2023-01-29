@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using XMCrypto.Domain.Interfaces.Services;
+using XMCrypto.Dtos;
 
 namespace XMCryptoApi.Controllers
 {
@@ -8,17 +10,19 @@ namespace XMCryptoApi.Controllers
     public class BTCTickerController : ControllerBase
     {
         private readonly IBTCService bTCService;
-        
-        public BTCTickerController(IBTCService btcSrv)
+        private readonly IMapper mapper;
+
+        public BTCTickerController(IBTCService btcSrv, IMapper map)
         {
             bTCService = btcSrv;
+            mapper = map;
         }
 
         [HttpGet("sources")]
         public async Task<IActionResult> GetSourceAvailable()
         {
-            await bTCService.GetSourceAvailablesAsync();
-            return Ok();
+            var response = mapper.Map<List<CryptoProviderDto>>(await bTCService.GetSourceAvailablesAsync());
+            return Ok(response);
         }
 
         [HttpPost]

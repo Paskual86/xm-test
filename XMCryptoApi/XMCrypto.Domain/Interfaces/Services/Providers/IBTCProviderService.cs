@@ -6,6 +6,7 @@ namespace XMCrypto.Domain.Interfaces.Services.Providers
         
     {
         string Name { get; }
+        string Path { get; }
         string UrlProvider { get; }
         Task<decimal> GetPriceAsync();
         Task<ExternalServiceStatus> GetStatusOfServiceAsync();

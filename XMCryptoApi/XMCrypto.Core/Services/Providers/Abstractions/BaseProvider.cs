@@ -13,13 +13,15 @@ namespace XMCrypto.Core.Services.Providers.Abstractions
 
         public string UrlProvider { get; private set; }
 
+        public string Path { get; set; }
         protected string ClientApiName { get; init; }
 
-        public BaseProvider(IHttpClientFactory httpCF, string urlProvider)
+        public BaseProvider(IHttpClientFactory httpCF)
         {
             httpClientFactory = httpCF;
-            UrlProvider = urlProvider;
             ClientApiName = string.Empty;
+            UrlProvider = string.Empty;
+            Path = string.Empty;
         }
 
         /// <summary>
@@ -42,7 +44,10 @@ namespace XMCrypto.Core.Services.Providers.Abstractions
             using (var response = await client.GetAsync(""))
             {
                 if ((pingResponse == ExternalServiceStatus.Available) && (response.StatusCode == System.Net.HttpStatusCode.OK))
+                {
+                    UrlProvider = client.BaseAddress + Path;
                     return ExternalServiceStatus.Available;
+                }
                 else
                     return ExternalServiceStatus.NotAvailable;
             }
@@ -66,7 +71,7 @@ namespace XMCrypto.Core.Services.Providers.Abstractions
             var request = new HttpRequestMessage
             {
                 Method = HttpMethod.Get,
-                RequestUri = new Uri(UrlProvider),
+                RequestUri = new Uri(Path),
                 Headers =  {
                                 { "accept", "application/json" },
                             },
