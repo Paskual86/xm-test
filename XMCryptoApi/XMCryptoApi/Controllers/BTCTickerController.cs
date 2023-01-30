@@ -26,8 +26,8 @@ namespace XMCryptoApi.Controllers
         [HttpGet("sources")]
         public async Task<IActionResult> GetSourceAvailable()
         {
-            var response = mapper.Map<List<CryptoProviderDto>>(await bTCService.GetSourceAvailablesAsync());
-            return Ok(response);
+           var response = mapper.Map<List<CryptoProviderDto>>(await bTCService.GetSourceAvailablesAsync());
+           return Ok(response);
         }
 
         /// <summary>

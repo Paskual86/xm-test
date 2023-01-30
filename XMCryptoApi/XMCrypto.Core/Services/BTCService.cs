@@ -100,7 +100,7 @@ namespace XMCrypto.Core.Services
             // Third  - Add The Valid Url to the result
             var result = new List<CryptoProvider>();
 
-            if (btcProvider == null) {
+            if ((btcProvider == null) || !btcProvider.Any() ) {
                 throw new BTCServiceException("There are not a providers implementations", BTCServiceException.NO_PROVIDERS_IMPLEMENTATION);
             }
 

@@ -8,6 +8,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{43E500F5-A90F-493A-A563-F97D602FA330}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{8FB83F53-921E-4BC4-9119-A561894F367A}"
+	ProjectSection(SolutionItems) = preProject
+		README.pdf = README.pdf
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTest", "UnitTest", "{B1CD8232-0A38-48E6-8946-8CF8F4855596}"
 EndProject
